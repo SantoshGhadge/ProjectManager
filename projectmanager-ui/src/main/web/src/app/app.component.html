@@ -1,0 +1,23 @@
+<div>
+  <div class="container" style="text-align:left">
+      <h2 style="text-align:left">Project Manager</h2>
+      <ul class="nav nav-tabs justify-content-left">
+      <br/>
+          <li class="nav-item" [routerLinkActive]="['active']">
+            <a class="nav-link" [routerLink]="['/project']">Add Project</a>
+        </li>
+          <li class="nav-item" [routerLinkActive]="['active']">
+              <a class="nav-link" [routerLink]="['/addTask']">Add Task</a> 
+          </li>
+          <li class="nav-item" [routerLinkActive]="['active']">
+              <a class="nav-link" [routerLink]="['/viewTask']">View Task</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['active']">
+            <a class="nav-link" [routerLink]="['/user']">Add User</a>
+          </li>
+      </ul>
+          <div  class="tab-content bgclass" style="text-align:left;height: 524px;width: 100%; overflow:auto; ">
+              <router-outlet></router-outlet> 
+          </div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+<div>
+  <div class="container-fluid form-group">
+      <br/>
+      <div class="row">
+            <div class="col-sm-2"><span>Task: </span></div> <div class="col-sm-2"><input type="text" class="form-control" maxlength="32" pattern="[A-Za-z]{1,32}" name="task" [(ngModel)] ="taskSearch"></div>
+            <div class="col-sm-2"><span>Parent Task: </span></div><div class="col-sm-2"><input type="text" class="form-control" [(ngModel)] ="parentSearch"></div>
+      </div>
+           <br/>
+      <div class="row">
+                  <div class="col-sm-1.2"><span>Priority From: </span></div><div class="col-sm-1.2"><input type="text" class="form-control" [(ngModel)] ="priorityFromSearch"></div>
+                  <div class="col-sm-1.2"><span>Priority To: </span></div><div class="col-sm-1.2"><input type="text" class="form-control" [(ngModel)] ="priorityToSearch"></div>
+                  <div class="col-sm-1.2"><span>Start date: </span></div><div class="col-sm-1.2"><input type="date" class="form-control" [(ngModel)] ="startDateSearch"></div>
+                  <div class="col-sm-1.2"><span>End date: </span></div><div class="col-sm-1.2"><input type="date" class="form-control" [(ngModel)] ="endDateSearch"></div>
+      </div>
+           <br/>
+  </div>
+  <br/>
+  <table width="90%" class="container-fluid form-group">
+  <thead class="col-sm-2">
+    <th>Task</th>
+    <th>ParentTask</th>
+    <th>Priority</th>
+    <th>Start Date</th>
+    <th>End Date</th>
+    <th></th>
+    <th></th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let taskObj of taskList | arrayFilter : taskSearch:parentSearch:startDateSearch:endDateSearch:priorityFromSearch:priorityToSearch">
+        <td>{{taskObj.task}}</td>
+        <td>{{taskObj.parentTask.parentTask || 'This task has no parent'}}</td>
+        <td>{{taskObj.priority}}</td>
+        <td>{{taskObj.startDate | date:'dd/M/yyyy'}} </td>
+        <td>{{taskObj.endDate | date:'dd/M/yyyy'}}</td>
+        <td><input type="button" value="Edit" (click)="editTask(taskObj)" class="btn btn-primary"></td>
+        <td><input type="button" value="End Task" (click)="endTask(taskObj)" class="btn btn-primary" ></td>
+    </tr>
+  </tbody>
+  </table>
+  </div>
