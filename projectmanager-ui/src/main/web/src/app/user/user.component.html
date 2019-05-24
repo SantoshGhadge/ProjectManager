@@ -1,3 +1,59 @@
-<p>
-  user works!
-</p>
+<div>
+  <form name="form" #f="ngForm" novalidate>
+    <div class="container-fluid form-group">
+    <br/>
+    <div><input type="hidden" name="userId" [(ngModel)]="model.userId" #userId="ngModel"></div>
+    <div class="row">
+        <div class="col-sm-2"><h5><span class="badge badge-info ">First Name:</span></h5></div>
+            <div class="col-sm-3"><input type="text" class="form-control" maxlength="32" pattern="[A-Za-z]{1,32}" name="firstName" [(ngModel)]="model.firstName" #firstName="ngModel" required></div>
+        </div>
+         <br/>
+         <div class="row">
+                <div class="col-sm-2"><h5><span class="badge badge-info ">Last Name:</span></h5></div>
+                <div class="col-sm-3"><input type="text" class="form-control" maxlength="32" pattern="[A-Za-z]{1,32}" name="lastName" [(ngModel)]="model.lastName" #lastName="ngModel" required></div>             
+         </div>       
+         <br/>
+         <div class="row">
+            <div class="col-sm-2"><h5><span class="badge badge-info ">Employee ID:</span></h5></div>
+            <div class="col-sm-3"><input type="number" class="form-control" maxlength="32" name="empId" [(ngModel)]="model.empId" #empId="ngModel" required></div>             
+          </div>
+         <br/>
+         <br/>
+         <div class="row">
+                <div class="col-sm-2"><span></span></div>
+                <div class="col-sm-1.5" *ngIf="addUserFlag"><input type="button" (click)="addUser(f.value)" [(disabled)]="!f.form.valid" value="Add" class="btn btn-primary"></div>
+                <div class="col-sm-1.5" *ngIf="updateUserFlag"><input type="button" (click)="updateUser(f.value)" [(disabled)]="!f.form.valid" value="Update" class="btn btn-primary"></div>
+                <div class="col-sm-1" *ngIf="addUserFlag"><input type="button" (click)="reset()" value="Reset" class="btn btn-primary"></div>
+                <div class="col-sm-1" *ngIf="updateUserFlag"><input type="button" (click)="cancel()" value="Cancel" class="btn btn-primary"></div>
+          </div>
+    </div>
+  </form>
+</div>
+<hr class="style1">
+  <br/>
+  <div class="container-fluid">
+  <div class="row">
+          <div class="col-sm-1"><span></span></div> <div class="col-sm-2"><input type="text" class="form-control" maxlength="32" pattern="[A-Za-z]{1,32}" placeholder="Search.." name="user" [(ngModel)] ="userSearch"></div>
+          Sort: <div class="col-sm-2"><input type="button" value="First Name" (click)="sortByFirstName()" class="btn btn-primary"></div>
+          <div class="col-sm-2"><input type="button" value="Last Name" (click)="sortByLastName()" class="btn btn-primary"></div>
+          <div class="col-sm-2"><input type="button" value="Id" (click)="sortById()" class="btn btn-primary"></div>             
+    </div>
+  </div>
+<br/>
+<div>
+    <hr class="style6">
+<ul class="list-group list-group-flush" *ngFor="let userObj of userList | arrayFilterUser : userSearch">
+    <hr class="style1">
+      <div class="row">
+          <div class="col-sm-5"><li class="list-group-item">{{userObj.firstName}}</li></div>
+          <div class="col-sm-3"><input type="button" value="Edit" (click)="editUser(userObj)" class="btn btn-primary"></div>             
+      </div>
+      <div class="row">
+          <div class="col-sm-5"><li class="list-group-item">{{userObj.lastName}}</li></div>
+          <div class="col-sm-3"><input type="button" value="Delete" (click)="delete(userObj)" class="btn btn-primary"></div>             
+      </div>
+      <div class="row">
+          <div class="col-sm-5"><li class="list-group-item">{{userObj.empId}}</li></div>
+      </div> 
+  </ul>
+  </div>

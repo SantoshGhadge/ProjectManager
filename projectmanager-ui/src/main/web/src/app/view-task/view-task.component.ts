@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Task } from '../Task.modal';
-import {ProjectmanagerService} from '../services/projectmanager.service';
+import {TaskService} from '../services/task.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Project } from '../Project.modal';
 
 @Component({
   selector: 'app-view-task',
@@ -11,24 +12,25 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ViewTaskComponent implements OnInit {
 
   @Input() taskList :Array<Task>;
-  constructor(private projectMangService : ProjectmanagerService,private route : Router) {
+  project : Project;
+  constructor(private taskService : TaskService,private route : Router) {
    }
   
   ngOnInit() {
-    this.projectMangService.getAllTaskList().subscribe(data => {  
+    this.taskService.getAllTaskList().subscribe(data => {  
       this.taskList = data;  
     });
   }
 
   getTaskList(){
     this.taskList = [];
-    this.projectMangService.getAllTaskList().subscribe(data => {  
+    this.taskService.getAllTaskList().subscribe(data => {  
       this.taskList = data;  
     });
   }
 
   endTask(task : Task) : void{
-      this.projectMangService.endTask(task).subscribe( data => {alert("Task ended successfully.")});    
+      this.taskService.endTask(task).subscribe( data => {alert("Task ended successfully.")});    
       this.route.navigateByUrl('/', {skipLocationChange: true}).then(()=>
       this.route.navigate(["viewTask"])); 
   }
@@ -37,5 +39,11 @@ export class ViewTaskComponent implements OnInit {
     this.route.navigate(['updateTask/'+JSON.stringify(task)]);
   }
 
+  receiveProject($event){
+    this.project = $event;
+    this.taskService.getAllTaskListByProjectId(this.project.projectId).subscribe(data => {  
+      this.taskList = data;  
+    });
+    }
 
 }

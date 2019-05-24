@@ -1,3 +1,70 @@
-<p>
-  project works!
-</p>
+<div>
+    <form name="form" #f="ngForm" novalidate>
+  <div class="container-fluid form-group">
+      <br/>
+      <div><input type="hidden" name="projectId" [(ngModel)]="model.projectId" #projectId="ngModel"></div>
+      <div class="row">
+          <div class="col-sm-2"><h5><span class="badge badge-info ">Project</span></h5></div>
+              <div class="col-sm-3"><input type="text" class="form-control" maxlength="32" name="project" [(ngModel)]="model.project" #project="ngModel" required></div>
+          </div>
+         <br/>
+
+         <div class="row">
+            <div class="col-sm-3"><input type="checkbox" [(ngModel)]="theCheckbox"  data-md-icheck (change)="toggleVisibility($event)"> Set startdate and enddate</div>
+            <div class="col-sm-1"><h5><span class="badge badge-info ">Start date</span></h5></div>
+                <div class="col-sm-2" *ngIf="marked"><input type="date" name="startDate" [(ngModel)]="model.startDate" #startDate="ngModel"></div>
+                <div class="col-sm-1"><h5><span class="badge badge-info ">End date</span></h5></div>
+                <div class="col-sm-2" *ngIf="marked"><input type="date" name="endDate" [(ngModel)]="model.endDate" #endDate="ngModel"></div>
+          </div>
+          <br/>
+           <div class="row">
+                  <div class="col-sm-2"><h5><span class="badge badge-info ">Priority</span></h5></div>
+                  <div class="col-sm-3"><input type="range" class="range" name="priority" max="30" min="0" value="0" [(ngModel)]="model.priority" #priority="ngModel" required > <h5><b>{{model.priority}}</b></h5></div>
+           </div>       
+           <br/>
+           <div class="row">
+              <div class="col-sm-2"><h5><span class="badge badge-info ">Manager</span></h5></div>
+              <div class="col-sm-3"><input type="text" maxlength="32" readonly name="managerId" [(ngModel)]="model.managerId" #managerId="ngModel" required></div>
+              <app-user-modal (userEvent)="receiveUser($event)"></app-user-modal>
+          </div>
+           <br/>
+           <div class="row">
+                  <div class="col-sm-2"><span></span></div>
+                  <div class="col-sm-1.5" *ngIf="!updateOperation"><input type="button" (click)="addProject(f.value)" [(disabled)]="!f.form.valid" value="Add" class="btn btn-primary"></div>
+                  <div class="col-sm-1.5" *ngIf="updateOperation"><input type="button" (click)="updateProject(f.value)" [(disabled)]="!f.form.valid" value="Update" class="btn btn-primary"></div>
+                  <div class="col-sm-1" *ngIf="!updateOperation" ><input type="button" (click)="reset()" value="Reset" class="btn btn-primary"></div>
+                  <div class="col-sm-1" *ngIf="updateOperation"><input type="button" (click)="cancel()" value="Cancel" class="btn btn-primary"></div>
+            </div>
+      </div>
+  </form>
+  </div>
+  <br/>
+  <div class="container-fluid">
+    <div class="row">
+            <div class="col-sm-1.5"><span></span></div> <div class="col-sm-2"><input type="text" class="form-control" maxlength="32" pattern="[A-Za-z]{1,32}" placeholder="Search.." name="project" [(ngModel)] ="projectSearch"></div>
+            Sort:<div class="col-sm-1.5"><input type="button" value="Start Date" (click)="sortDataByDate()" class="btn btn-primary"></div>
+            <div class="col-sm-1"><input type="button" value="End Date" (click)="sortDataByEndDate()" class="btn btn-primary"></div>
+            <div class="col-sm-1"><input type="button" value="Priority" (click)="sortByPriority()" class="btn btn-primary"></div>             
+            <div class="col-sm-1"><input type="button" value="Completed" (click)="sortByCompleted()" class="btn btn-primary"></div>             
+      </div>
+    </div>
+  <div>
+    <hr class="style6">
+<ul class="list-group list-group-flush" *ngFor="let projObj of projectList | arrayFilterProject : projectSearch">
+    <hr class="style1">
+      <div class="row" >
+                <div class="col-sm-5"><li class="list-group-item">Project :{{projObj.project}}</li></div>
+                <div class="col-sm-2"><li class="list-group-item">Priority :{{projObj.priority}}</li></div> 
+                <div class="col-sm-2"><input type="button" value="Update" (click)="editProject(projObj)" class="btn btn-primary"></div>             
+        </div>
+        <div class="row">
+                <div class="col-sm-3"><li class="list-group-item">No of tasks : {{projObj.noOfTasks}}</li></div>
+                <div class="col-sm-3"><li class="list-group-item">Status :{{projObj.status}}</li></div>
+                <div class="col-sm-1" style="padding-left:10%"><input type="button" value="Suspend" (click)="suspend(projObj)" class="btn btn-primary"></div>              
+        </div>
+        <div class="row">
+                <div class="col-sm-3"><li class="list-group-item">Start Date :{{projObj.startDate | date:'dd/M/yyyy'}}</li></div>
+                <div class="col-sm-3"><li class="list-group-item">End Date :{{projObj.endDate | date:'dd/M/yyyy'}}</li></div>
+        </div>
+     </ul>
+</div>

@@ -1,0 +1,37 @@
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Select Parent Task</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <table width="90%" class="container-fluid form-group" >
+            <thead class="col-sm-2">
+                <th>Task</th>
+                <th>ParentTask</th>
+                <th>Priority</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th></th>
+                <th></th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let taskObj of taskList | arrayFilter : taskSearch:parentSearch:startDateSearch:endDateSearch:priorityFromSearch:priorityToSearch">
+                    <td>{{taskObj.task}}</td>
+                    <td>{{taskObj.parentTask.parentTask || 'This task has no parent'}}</td>
+                    <td>{{taskObj.priority}}</td>
+                    <td>{{taskObj.startDate | date:'dd/M/yyyy'}} </td>
+                    <td>{{taskObj.endDate | date:'dd/M/yyyy'}}</td>
+                    <td><input type="button" value="Select" (click)="addParentTask(taskObj)" class="btn btn-sm btn-primary"></td>
+                </tr>
+              </tbody>
+          </table> 
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+    </div>
+  </ng-template>
+  
+  <button class="btn btn-md btn-outline-primary" (click)="open(content)">Search</button>
+  

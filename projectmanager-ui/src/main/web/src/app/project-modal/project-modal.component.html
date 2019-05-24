@@ -1,0 +1,36 @@
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Select Project</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <table width="90%" class="container-fluid form-group" >
+            <thead class="col-sm-2">
+              <th>Project Id</th>
+              <th>Project</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Priority</th>
+              <th></th>
+           </thead>
+            <tbody>
+              <tr *ngFor="let proj of projectList">
+                  <td>{{proj.projectId}}</td>
+                  <td>{{proj.project}}</td>
+                  <td>{{proj.startDate | date:'dd/M/yyyy'}}</td>
+                  <td>{{proj.endDate | date:'dd/M/yyyy'}}</td>
+                  <td>{{proj.priority}}</td>
+                  <td><input type="button" value="Select" (click)="addProject(proj)" class="btn btn-sm btn-primary"></td>
+               </tr>
+            </tbody>
+          </table> 
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+    </div>
+  </ng-template>
+  
+  <button class="btn btn-md btn-outline-primary" (click)="open(content)">Search</button>
+  

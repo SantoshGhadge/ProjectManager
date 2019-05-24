@@ -1,7 +1,7 @@
 <div>
   <div class="container-fluid form-group">
       <br/>
-      <div class="row">
+      <!-- <div class="row">
             <div class="col-sm-2"><span>Task: </span></div> <div class="col-sm-2"><input type="text" class="form-control" maxlength="32" pattern="[A-Za-z]{1,32}" name="task" [(ngModel)] ="taskSearch"></div>
             <div class="col-sm-2"><span>Parent Task: </span></div><div class="col-sm-2"><input type="text" class="form-control" [(ngModel)] ="parentSearch"></div>
       </div>
@@ -12,7 +12,13 @@
                   <div class="col-sm-1.2"><span>Start date: </span></div><div class="col-sm-1.2"><input type="date" class="form-control" [(ngModel)] ="startDateSearch"></div>
                   <div class="col-sm-1.2"><span>End date: </span></div><div class="col-sm-1.2"><input type="date" class="form-control" [(ngModel)] ="endDateSearch"></div>
       </div>
-           <br/>
+           <br/> -->
+        `<div class="row">
+          <div class="col-sm-2"><h5><span class="badge badge-info ">Project</span></h5></div>
+          <div class="col-sm-3"><input type="text" class="form-control" maxlength="32" pattern="[A-Za-z]{1,32}" name="project.project" [(ngModel)]="project && project.project"  required></div>
+          <app-project-modal (projectEvent)="receiveProject($event)"></app-project-modal>
+          <!-- <div style="display:none"><app-user-modal [type]='project'></app-user-modal></div> -->
+      </div>   
   </div>
   <br/>
   <table width="90%" class="container-fluid form-group">

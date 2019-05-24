@@ -2,35 +2,47 @@
   <form name="form" #f="ngForm" novalidate>
 <div class="container-fluid form-group">
     <br/>
-    <div><input type="hidden" name="task_id" [(ngModel)]="model.task_id" #task_id="ngModel"></div>
+    <div><input type="hidden" name="taskId" [(ngModel)]="model.taskId" #taskId="ngModel"></div>
+    <div class="row">
+        <div class="col-sm-2"><h5><span class="badge badge-info ">Project</span></h5></div>
+        <div class="col-sm-3"><input type="text" readonly class="form-control" maxlength="32" name="projectId" [(ngModel)]="model.projectId" #projectId="ngModel" required></div>
+        <app-project-modal (projectEvent)="receiveProject($event)"></app-project-modal>
+        <!-- <div style="display:none"><app-user-modal [type]='project'></app-user-modal></div> -->
+    </div>
+    <br/>
     <div class="row">
         <div class="col-sm-2"><h5><span class="badge badge-info ">Task</span></h5></div>
-            <div class="col-sm-3"><input type="text" class="form-control" maxlength="32" pattern="[A-Za-z]{1,32}" name="task" [(ngModel)]="model.task" #task="ngModel"  [ngClass]="{ 'is-invalid': f.submitted && task.invalid }"  required></div>
-            <div *ngIf="f.submitted && task.invalid" class="invalid-feedback">
-              <div *ngIf="task.errors.required">Task Name is required</div>
-          </div>
+            <div class="col-sm-3"><input type="text" class="form-control" name="task" [(ngModel)]="model.task" #task="ngModel"  required></div>
+        </div>
+        <br/>
+        <div class="row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-2"><input type="checkbox" [(ngModel)]="theCheckbox"  data-md-icheck (change)="toggleVisibility($event)"> Parent task</div>
         </div>
          <br/>
          <div class="row">
                 <div class="col-sm-2"><h5><span class="badge badge-info ">Priority</span></h5></div>
-                <div class="col-sm-3"><input type="range" class="range" name="priority" max="30" min="0" value="0" [(ngModel)]="model.priority" #priority="ngModel" required > <h5><b>{{model.priority}}</b></h5></div>
+                <div class="col-sm-3"><input type="range" [(disabled)]="marked" class="range" name="priority" max="30" min="0" value="0" [(ngModel)]="model.priority" #priority="ngModel" > <h5><b>{{model.priority}}</b></h5></div>
                     
          </div>       
          <br/>
          <div class="row">
+                <div class="col-sm-2"><h5><span class="badge badge-info ">Parent Task</span></h5></div>
+                <div><input type="hidden" name="parentTask" [(ngModel)]="model.parentTask" #parentTask="ngModel"></div>
+                <div class="col-sm-3"><input type="text" class="form-control" readonly maxlength="32" name="parentTask.parentTask" [(ngModel)]="model.parentTask && model.parentTask.parentTask"></div>
+                <app-parent-modal (taskEvent)="receiveTask($event)"></app-parent-modal>
+         </div>
+         <!-- <div class="row">
               <div class="col-sm-2"><h5><span class="badge badge-info ">Parent Task</span></h5></div>
                   <div class="col-sm-3 form-group" >
-                      <select id="id" name="parentTask"  class="form-control" [(ngModel)]="model.parentTask" #parentTask="ngModel">
+                      <select id="id" name="parentTask"  [(disabled)]="marked" class="form-control" [(ngModel)]="model.parentTask" #parentTask="ngModel">
                           <option value="" [disabled]="true">--Select a Parent Task--</option>
-                          <!-- <option [ngValue]="k" *ngFor="let k of taskList" [selected]="k.parentTask.parentTask == selectedParentVal">  
-                              {{k.parentTask.parentTask ? k.parentTask.parentTask : k.task}}  
-                           </option> -->
                            <option [ngValue]="k" *ngFor="let k of taskList" [selected]="k.task == selectedParentVal">  
                               {{k.task}}  
                            </option>  
                       </select>  
                   </div>
-          </div>
+          </div> -->
          <!-- <div class="row">
                 <div class="col-sm-2"><h5><span class="badge badge-info ">Parent Task</span></h5></div>
                     <div class="col-sm-3"><input type="text" [formControl]="taskFormGrp.controls['parentTask']"></div>
@@ -38,13 +50,16 @@
          <br/>
          <div class="row">
                 <div class="col-sm-2"><h5><span class="badge badge-info ">Start date</span></h5></div>
-                    <div class="col-sm-3"><input type="date" name="startDate" [(ngModel)]="model.startDate" #startDate="ngModel" required ></div>
+                    <div class="col-sm-3"><input type="date" name="startDate" [(disabled)]="marked" [(ngModel)]="model.startDate" #startDate="ngModel" ></div>
+                    <div class="col-sm-2"><h5><span class="badge badge-info ">End date</span></h5></div>
+                    <div class="col-sm-3"><input type="date" name="endDate" [(disabled)]="marked" [(ngModel)]="model.endDate" #endDate="ngModel" ></div>
          </div>
          <br/>
          <div class="row">
-                <div class="col-sm-2"><h5><span class="badge badge-info ">End date</span></h5></div>
-                    <div class="col-sm-3"><input type="date" name="endDate" [(ngModel)]="model.endDate" #endDate="ngModel" required ></div>
-         </div>
+                <div class="col-sm-2"><h5><span class="badge badge-info ">User</span></h5></div>
+                <div class="col-sm-3"><input type="text" maxlength="32" class="form-control" readonly name="userId" [(ngModel)]="model.userId" #userId="ngModel" required></div>
+                <app-user-modal (userEvent)="receiveUser($event)"></app-user-modal>
+            </div>
          <br/>
          <div class="row">
                 <div class="col-sm-2"><span></span></div>

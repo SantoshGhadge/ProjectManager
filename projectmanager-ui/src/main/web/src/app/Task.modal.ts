@@ -7,7 +7,8 @@ export class Task{
     parentTask : ParentTask;
     startDate : Date;
     endDate : Date;
-    
+    projectId : number;
+    userId : number;
     public Task(){
 
     }
@@ -16,7 +17,9 @@ export class Task{
         priority : number,
         parentTask : ParentTask,
         startDate : Date,
-        endDate : Date
+        endDate : Date,
+        projectId : number,
+        userId : number
     ){
         this.taskId = taskId;
         this.task = task;
@@ -24,5 +27,7 @@ export class Task{
         this.parentTask = parentTask;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.projectId = projectId;
+        this.userId = userId;
     }
 }
